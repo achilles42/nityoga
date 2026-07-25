@@ -24,6 +24,9 @@
                  image → shows art beside the text (2-col on
                  desktop, stacked on mobile)
      stats       {items:[{value,label}]}
+     marquee     {title?, subtitle?, images?:[{src,caption?}]}
+                 — photo strip that glides left → right
+                 (defaults to SITE.gallery if images omitted)
      videoGrid   {title?, subtitle?, source:"classes",
                   filters?:true, limit?, featuredOnly?}
      cardGrid    {title?, subtitle?, cards:[{icon,title,text,href?}]}
@@ -240,12 +243,19 @@ window.SITE = {
             { label: { en: "Talk on WhatsApp", hi: "WhatsApp पर बात करें", sa: "WhatsApp-वार्ता" }, whatsapp: true },
           ],
         },
-        { type: "stats",
-          items: [
-            { value: "100%", label: { en: "classes", hi: "निःशुल्क कक्षाएँ", sa: "निःशुल्क-कक्षाः" } },
-            { value: "5",    label: { en: "yoga styles", hi: "योग शैलियाँ", sa: "योगशैल्यः" } },
-            { value: "3",    label: { en: "experienced teachers", hi: "अनुभवी शिक्षक", sa: "अनुभविनः गुरवः" } },
-            { value: "0",    label: { en: "logins required", hi: "लॉगिन ज़रूरी नहीं", sa: "प्रवेशः न आवश्यकः" } },
+        /* Moving photo strip — pictures glide left → right.
+           Add a picture: drop the file in assets/img/ (or gallery/)
+           and add one { src: "..." } line below.               */
+        { type: "marquee",
+          title: { en: "Our community in motion", hi: "हमारा समुदाय, तस्वीरों में", sa: "अस्माकं समुदायः चित्रेषु" },
+          images: [
+            { src: "assets/img/nitesh.jpg",         caption: { en: "Yogacharya Nitesh Shukla", hi: "योगाचार्य नितेश शुक्ल", sa: "योगाचार्यः नितेशशुक्लः" } },
+            { src: "assets/img/gallery/g1.svg",     caption: { en: "Sunrise batch, Rishikesh", hi: "सूर्योदय सत्र, ऋषिकेश", sa: "उषःकालसत्रम्" } },
+            { src: "assets/img/gallery/g2.svg",     caption: { en: "Corporate session", hi: "कॉर्पोरेट सत्र", sa: "संस्था-सत्रम्" } },
+            { src: "assets/img/gallery/g3.svg",     caption: { en: "Pranayama workshop", hi: "प्राणायाम कार्यशाला", sa: "प्राणायाम-कार्यशाला" } },
+            { src: "assets/img/gallery/g4.svg",     caption: { en: "Kids' Sunday class", hi: "बच्चों की रविवार कक्षा", sa: "बालानां कक्षा" } },
+            { src: "assets/img/gallery/g5.svg",     caption: { en: "Evening meditation", hi: "सांध्य ध्यान", sa: "सायं ध्यानम्" } },
+            { src: "assets/img/gallery/g6.svg",     caption: { en: "Yoga Day 2026", hi: "योग दिवस 2026", sa: "योगदिवसः 2026" } },
           ],
         },
         { type: "videoGrid",
@@ -419,6 +429,43 @@ window.SITE = {
                      hi: "हर उम्र के साधकों को योग सिखाते हैं — स्टूडियो, दफ़्तर और घर पर। Instagram: @yogacharay_nitesh_shukla",
                      sa: "सर्ववयसां साधकानां योगगुरुः। Instagram: @yogacharay_nitesh_shukla" } },
           ],
+        },
+        /* Community events & groups we're part of — edit/add cards freely. */
+        { type: "cardGrid",
+          title: { en: "Community & events", hi: "समुदाय व आयोजन", sa: "समुदायः उत्सवाश्च" },
+          subtitle: { en: "Groups we practise with and events we host across the year.",
+                      hi: "जिन समूहों के साथ हम अभ्यास करते हैं और साल भर के आयोजन।",
+                      sa: "अस्माकं समुदायाः वार्षिकाः उत्सवाश्च।" },
+          cards: [
+            { icon: "🌏",
+              title: { en: "International Yoga Day", hi: "अंतर्राष्ट्रीय योग दिवस", sa: "अन्ताराष्ट्रिय-योगदिवसः" },
+              text: { en: "Every 21 June we lead open community sessions — everyone is welcome, no experience needed.",
+                      hi: "हर 21 जून हम खुले सामुदायिक सत्र कराते हैं — सभी का स्वागत है।",
+                      sa: "प्रति २१ जून सर्वेभ्यः उन्मुक्तानि सत्राणि।" } },
+            { icon: "🌅",
+              title: { en: "Sunrise Sangha, Rishikesh", hi: "सूर्योदय संघ, ऋषिकेश", sa: "उषःकाल-सङ्घः" },
+              text: { en: "A free weekend morning circle by the Ganga — asana, pranayama and chai after.",
+                      hi: "गंगा किनारे सप्ताहांत की निःशुल्क सुबह की मंडली — आसन, प्राणायाम और फिर चाय।",
+                      sa: "गङ्गातीरे निःशुल्कं प्रातःमण्डलम्।" } },
+            { icon: "🤝",
+              title: { en: "Corporate wellness network", hi: "कॉर्पोरेट वेलनेस नेटवर्क", sa: "संस्था-स्वास्थ्य-जालम्" },
+              text: { en: "We partner with offices and housing societies for wellness days and weekly batches.",
+                      hi: "वेलनेस-डे व साप्ताहिक कक्षाओं के लिए दफ़्तरों व सोसाइटियों के साथ साझेदारी।",
+                      sa: "कार्यालयैः सह साप्ताहिक-कक्षाणां सहयोगः।" } },
+            { icon: "📱",
+              title: { en: "Instagram practice circle", hi: "Instagram अभ्यास मंडल", sa: "Instagram-अभ्यासमण्डलम्" },
+              text: { en: "Daily practice clips and Q&A with @yogacharay_nitesh_shukla — join the conversation.",
+                      hi: "@yogacharay_nitesh_shukla के साथ रोज़ के अभ्यास क्लिप और सवाल-जवाब।",
+                      sa: "प्रतिदिनम् अभ्यासदृश्यानि प्रश्नोत्तराणि च।" },
+              href: "https://www.instagram.com/yogacharay_nitesh_shukla/" },
+          ],
+        },
+        { type: "banner",
+          title: { en: "Join our community", hi: "हमारे समुदाय से जुड़ें", sa: "अस्माकं समुदायं मिल" },
+          text: { en: "Get event dates and new class alerts on WhatsApp.",
+                  hi: "आयोजन की तारीख़ें और नई कक्षाओं की सूचना WhatsApp पर पाएँ।",
+                  sa: "उत्सवसूचनाः WhatsApp-द्वारा प्राप्नुहि।" },
+          cta: { label: { en: "Join on WhatsApp", hi: "WhatsApp पर जुड़ें", sa: "WhatsApp-द्वारा मिल" }, whatsapp: true },
         },
       ],
     },

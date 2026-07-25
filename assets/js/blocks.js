@@ -50,6 +50,23 @@ function blockStats(b) {
   return el(`<section class="section"><div class="wrap"><div class="stats">${items}</div></div></section>`);
 }
 
+/* ---------- marquee (photo strip that glides left → right) ---------- */
+function blockMarquee(b) {
+  const images = b.images || SITE.gallery || [];
+  const pics = images
+    .map((img) => `<img loading="lazy" src="${esc(img.src || img)}" alt="${esc(t(img.caption) || "")}" />`)
+    .join("");
+  return el(`
+    <section class="section marquee-section">
+      <div class="wrap">
+        ${b.title ? `<div class="section-head"><h2>${esc(t(b.title))}</h2>${b.subtitle ? `<p>${esc(t(b.subtitle))}</p>` : ""}</div>` : ""}
+        <div class="marquee">
+          <div class="marquee-track">${pics}${pics}</div>
+        </div>
+      </div>
+    </section>`);
+}
+
 /* ---------- video grid (with optional filters) ---------- */
 function videoCard(v) {
   const id = videoId(v);
@@ -169,9 +186,10 @@ function blockCardGrid(b) {
 function blockPeople(b) {
   const people = (b.people || []).map((p) => `
     <div class="person fade-in">
-      <div class="avatar">${p.image
-        ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" />`
-        : esc(p.initials || p.name.split(" ").map((w) => w[0]).join(""))}</div>
+      <div class="avatar">
+        <span>${esc(p.initials || p.name.split(" ").map((w) => w[0]).join(""))}</span>
+        ${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" onerror="this.remove()" />` : ""}
+      </div>
       <h3>${esc(p.name)}</h3>
       <p class="role">${esc(t(p.role))}</p>
       <p class="bio">${esc(t(p.bio))}</p>
@@ -332,6 +350,7 @@ function blockContact() {
 const BLOCKS = {
   hero: blockHero,
   stats: blockStats,
+  marquee: blockMarquee,
   videoGrid: blockVideoGrid,
   cardGrid: blockCardGrid,
   people: blockPeople,

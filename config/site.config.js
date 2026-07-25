@@ -167,12 +167,17 @@ window.SITE = {
      Drop photos in assets/img/gallery/ and add a line here.
      (The current images are placeholders — replace freely.)  */
   gallery: [
-    { src: "assets/img/gallery/g1.svg", caption: { en: "Sunrise batch, Rishikesh retreat", hi: "सूर्योदय सत्र, ऋषिकेश रिट्रीट", sa: "उषःकालसत्रम्" } },
-    { src: "assets/img/gallery/g2.svg", caption: { en: "Corporate session — Bengaluru", hi: "कॉर्पोरेट सत्र — बेंगलुरु", sa: "संस्था-सत्रम्" } },
-    { src: "assets/img/gallery/g3.svg", caption: { en: "Pranayama workshop", hi: "प्राणायाम कार्यशाला", sa: "प्राणायाम-कार्यशाला" } },
-    { src: "assets/img/gallery/g4.svg", caption: { en: "Kids' Sunday class", hi: "बच्चों की रविवार कक्षा", sa: "बालानां कक्षा" } },
-    { src: "assets/img/gallery/g5.svg", caption: { en: "Evening meditation circle", hi: "सांध्य ध्यान मंडल", sa: "सायं ध्यानमण्डलम्" } },
-    { src: "assets/img/gallery/g6.svg", caption: { en: "International Yoga Day 2026", hi: "अंतर्राष्ट्रीय योग दिवस 2026", sa: "अन्ताराष्ट्रिय-योगदिवसः" } },
+    { src: "assets/img/gallery/g01.jpeg", caption: { en: "Setu Bandhasana — leading a school session", hi: "सेतुबंधासन — विद्यालय सत्र का नेतृत्व", sa: "सेतुबन्धासनम् — विद्यालयसत्रम्" } },
+    { src: "assets/img/gallery/g02.jpeg", caption: { en: "Seated spinal twist, morning practice", hi: "बैठकर मेरुदंड मोड़ — प्रातः अभ्यास", sa: "वक्रासनम् — प्रातःसाधना" } },
+    { src: "assets/img/gallery/g03.jpeg", caption: { en: "Trikonasana with students", hi: "विद्यार्थियों के साथ त्रिकोणासन", sa: "छात्रैः सह त्रिकोणासनम्" } },
+    { src: "assets/img/gallery/g04.jpeg", caption: { en: "Morning yoga at the school courtyard", hi: "विद्यालय प्रांगण में प्रातः योग", sa: "विद्यालयप्राङ्गणे प्रातर्योगः" } },
+    { src: "assets/img/gallery/g05.jpeg", caption: { en: "Balasana — rest and release", hi: "बालासन — विश्राम", sa: "बालासनम् — विश्रामः" } },
+    { src: "assets/img/gallery/g06.jpeg", caption: { en: "Vrikshasana in the park", hi: "पार्क में वृक्षासन", sa: "उद्याने वृक्षासनम्" } },
+    { src: "assets/img/gallery/g07.jpeg", caption: { en: "Guided meditation, open-air class", hi: "खुले में ध्यान सत्र", sa: "ध्यानसत्रम्" } },
+    { src: "assets/img/gallery/g08.jpeg", caption: { en: "Yoga training camp — Hanslok Ashram, New Delhi", hi: "योग प्रशिक्षण शिविर — हंसलोक आश्रम, नई दिल्ली", sa: "योगप्रशिक्षणशिबिरम् — नवदिल्ली" } },
+    { src: "assets/img/gallery/g09.jpeg", caption: { en: "Community classes — parks and schools", hi: "सामुदायिक कक्षाएँ — पार्क और विद्यालय", sa: "समुदायकक्षाः" } },
+    { src: "assets/img/gallery/g10.jpeg", caption: { en: "Free yoga camp with SLBSNS University", hi: "निःशुल्क योग शिविर — संस्कृत विश्वविद्यालय", sa: "निःशुल्कयोगशिबिरम्" } },
+    { src: "assets/img/gallery/g11.jpeg", caption: { en: "Dhanurasana — International Yoga Day shivir", hi: "धनुरासन — अंतर्राष्ट्रीय योग दिवस शिविर", sa: "धनुरासनम् — योगदिवसशिबिरम्" } },
   ],
 
   /* ---------- PAYMENT ----------
@@ -250,12 +255,12 @@ window.SITE = {
           title: { en: "Our community in motion", hi: "हमारा समुदाय, तस्वीरों में", sa: "अस्माकं समुदायः चित्रेषु" },
           images: [
             { src: "assets/img/nitesh.jpg",         caption: { en: "Yogacharya Nitesh Shukla", hi: "योगाचार्य नितेश शुक्ल", sa: "योगाचार्यः नितेशशुक्लः" } },
-            { src: "assets/img/gallery/g1.svg",     caption: { en: "Sunrise batch, Rishikesh", hi: "सूर्योदय सत्र, ऋषिकेश", sa: "उषःकालसत्रम्" } },
-            { src: "assets/img/gallery/g2.svg",     caption: { en: "Corporate session", hi: "कॉर्पोरेट सत्र", sa: "संस्था-सत्रम्" } },
-            { src: "assets/img/gallery/g3.svg",     caption: { en: "Pranayama workshop", hi: "प्राणायाम कार्यशाला", sa: "प्राणायाम-कार्यशाला" } },
-            { src: "assets/img/gallery/g4.svg",     caption: { en: "Kids' Sunday class", hi: "बच्चों की रविवार कक्षा", sa: "बालानां कक्षा" } },
-            { src: "assets/img/gallery/g5.svg",     caption: { en: "Evening meditation", hi: "सांध्य ध्यान", sa: "सायं ध्यानम्" } },
-            { src: "assets/img/gallery/g6.svg",     caption: { en: "Yoga Day 2026", hi: "योग दिवस 2026", sa: "योगदिवसः 2026" } },
+            { src: "assets/img/gallery/g01.jpeg",   caption: { en: "Setu Bandhasana — school session", hi: "सेतुबंधासन — विद्यालय सत्र", sa: "सेतुबन्धासनम्" } },
+            { src: "assets/img/gallery/g03.jpeg",   caption: { en: "Trikonasana with students", hi: "विद्यार्थियों के साथ त्रिकोणासन", sa: "त्रिकोणासनम्" } },
+            { src: "assets/img/gallery/g06.jpeg",   caption: { en: "Vrikshasana in the park", hi: "पार्क में वृक्षासन", sa: "वृक्षासनम्" } },
+            { src: "assets/img/gallery/g07.jpeg",   caption: { en: "Guided meditation", hi: "ध्यान सत्र", sa: "ध्यानसत्रम्" } },
+            { src: "assets/img/gallery/g08.jpeg",   caption: { en: "Yoga training camp", hi: "योग प्रशिक्षण शिविर", sa: "योगप्रशिक्षणशिबिरम्" } },
+            { src: "assets/img/gallery/g11.jpeg",   caption: { en: "International Yoga Day shivir", hi: "अंतर्राष्ट्रीय योग दिवस शिविर", sa: "योगदिवसशिबिरम्" } },
           ],
         },
         { type: "videoGrid",

@@ -178,6 +178,9 @@ window.SITE = {
     { src: "assets/img/gallery/g09.jpeg", caption: { en: "Community classes — parks and schools", hi: "सामुदायिक कक्षाएँ — पार्क और विद्यालय", sa: "समुदायकक्षाः" } },
     { src: "assets/img/gallery/g10.jpeg", caption: { en: "Free yoga camp with SLBSNS University", hi: "निःशुल्क योग शिविर — संस्कृत विश्वविद्यालय", sa: "निःशुल्कयोगशिबिरम्" } },
     { src: "assets/img/gallery/g11.jpeg", caption: { en: "Dhanurasana — International Yoga Day shivir", hi: "धनुरासन — अंतर्राष्ट्रीय योग दिवस शिविर", sa: "धनुरासनम् — योगदिवसशिबिरम्" } },
+    { src: "assets/img/gallery/g12.jpeg", caption: { en: "Mayurasana — strength in stillness", hi: "मयूरासन — स्थिरता में शक्ति", sa: "मयूरासनम्" } },
+    { src: "assets/img/gallery/g13.jpeg", caption: { en: "Guiding the camp — Hanslok Ashram", hi: "शिविर मार्गदर्शन — हंसलोक आश्रम", sa: "शिबिरमार्गदर्शनम्" } },
+    { src: "assets/img/gallery/g14.jpeg", caption: { en: "Vrikshasana at sunrise", hi: "सूर्योदय पर वृक्षासन", sa: "उषःकाले वृक्षासनम्" } },
   ],
 
   /* ---------- PAYMENT ----------

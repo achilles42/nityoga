@@ -92,7 +92,7 @@ Upload to YouTube, copy the video link, then:
   title: "Sunset Slow Flow",
   youtube: "https://www.youtube.com/watch?v=XXXXXXXXXXX",  // youtu.be / shorts links or a bare ID work too
   style: "Vinyasa", level: "Beginner", duration: "15–30 min",
-  minutes: 22, teacher: "Ananya Rao",
+  minutes: 22, teacher: "Yogacharay Nitesh Shukla",
   description: "Wind down the day with a soft, steady flow.",
   featured: true,   // optional: also shows on the home page
 },

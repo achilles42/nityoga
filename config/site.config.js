@@ -69,8 +69,8 @@ window.SITE = {
 
   /* ---------- TOP BAR (phone, email, socials) ---------- */
   topbar: {
-    phone: "+91 63981 80245",
-    email: "hello@nityoga.example",
+    phone: "+91 756 6687 916",
+    email: "hello@nityoga.com",
     social: [
       { icon: "facebook",  href: "https://www.facebook.com/" },
       { icon: "instagram", href: "https://www.instagram.com/" },
@@ -82,7 +82,7 @@ window.SITE = {
      number: digits only, with country code. The floating button and
      every WhatsApp link on the site use this.                        */
   whatsapp: {
-    number: "916398180245",
+    number: "917566687916",
     message: "Namaste! I'd like to know more about NitYoga classes.",
   },
 
@@ -204,8 +204,8 @@ window.SITE = {
       hi: "राम झूला के पास, ऋषिकेश, उत्तराखंड 249304",
       sa: "रामझूला-समीपे, हृषीकेशः, उत्तराखण्डः 249304",
     },
-    phone: "+91 63981 80245",
-    email: "hello@nityoga.example",
+    phone: "+91 756 6687 916",
+    email: "hello@nityoga.com",
     hours: {
       en: "Mon–Sat · 6:00–10:00 & 16:00–19:00 IST",
       hi: "सोम–शनि · 6:00–10:00 व 16:00–19:00 IST",

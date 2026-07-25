@@ -39,11 +39,28 @@ included so GitHub serves files as-is).
 |---|---|
 | Change colours / theme | `theme` (CSS variables) |
 | Rename the site / swap the logo | `brand` |
-| Add a menu item | `nav` |
+| Top bar phone / email / socials | `topbar` |
+| WhatsApp number & pre-filled message | `whatsapp` |
+| Add a menu item (or dropdown) | `nav` (`children:` makes a dropdown) |
 | **Add a whole new page** | add a key under `pages` + a `nav` entry |
-| Add / remove a class video | `classes` (just paste the YouTube ID) |
+| Add / remove a class video | `classes` (paste the YouTube link) |
 | Change filter options | `filters` |
+| **Add a gallery photo** | drop file in `assets/img/gallery/` + one line under `gallery` |
+| UPI / bank payment details | `payment` (swap `assets/img/upi-qr.svg` for your real QR) |
+| Contact details & enquiry form | `contact` (set `formAction` to a Formspree URL to receive submissions; empty = opens visitor's email app) |
 | Edit footer links | `footer` |
+
+### Languages (English · हिंदी · संस्कृतम्)
+
+The top bar has a language switcher. Any text value in the config can be
+either a plain string or an object:
+
+```js
+title: { en: "Find your practice", hi: "अपना अभ्यास चुनें", sa: "स्वाभ्यासं चिनु" },
+```
+
+Missing translations fall back to English automatically. Add or remove
+languages in `languages`.
 
 ### Add a new page in 30 seconds
 

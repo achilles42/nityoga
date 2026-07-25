@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#ffffff"/>
+  <!-- placeholder QR look-alike: replace this file with your real UPI QR image -->
+  <g fill="#15302d">
+    <rect x="16" y="16" width="44" height="44" rx="4"/>
+    <rect x="140" y="16" width="44" height="44" rx="4"/>
+    <rect x="16" y="140" width="44" height="44" rx="4"/>
+    <rect x="26" y="26" width="24" height="24" fill="#fff" rx="2"/>
+    <rect x="150" y="26" width="24" height="24" fill="#fff" rx="2"/>
+    <rect x="26" y="150" width="24" height="24" fill="#fff" rx="2"/>
+    <rect x="33" y="33" width="10" height="10"/>
+    <rect x="157" y="33" width="10" height="10"/>
+    <rect x="33" y="157" width="10" height="10"/>
+    <rect x="76" y="24" width="10" height="10"/><rect x="96" y="16" width="10" height="10"/>
+    <rect x="116" y="32" width="10" height="10"/><rect x="76" y="48" width="10" height="10"/>
+    <rect x="104" y="52" width="10" height="10"/><rect x="24" y="76" width="10" height="10"/>
+    <rect x="48" y="92" width="10" height="10"/><rect x="16" y="108" width="10" height="10"/>
+    <rect x="40" y="116" width="10" height="10"/><rect x="72" y="80" width="10" height="10"/>
+    <rect x="92" y="96" width="10" height="10"/><rect x="112" y="76" width="10" height="10"/>
+    <rect x="132" y="92" width="10" height="10"/><rect x="152" y="80" width="10" height="10"/>
+    <rect x="172" y="100" width="10" height="10"/><rect x="84" y="116" width="10" height="10"/>
+    <rect x="108" y="128" width="10" height="10"/><rect x="140" y="120" width="10" height="10"/>
+    <rect x="164" y="136" width="10" height="10"/><rect x="80" y="152" width="10" height="10"/>
+    <rect x="100" y="168" width="10" height="10"/><rect x="124" y="152" width="10" height="10"/>
+    <rect x="148" y="168" width="10" height="10"/><rect x="172" y="160" width="10" height="10"/>
+  </g>
+  <rect x="30" y="86" width="140" height="28" rx="6" fill="#e8843c"/>
+  <text x="100" y="105" font-family="sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">REPLACE WITH REAL QR</text>
+</svg>

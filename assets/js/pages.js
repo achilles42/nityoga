@@ -17,7 +17,7 @@ function renderPage(pageKey) {
     return;
   }
 
-  document.title = `${page.title} · ${SITE.brand.name}`;
+  document.title = `${t(page.title)} · ${SITE.brand.name}`;
 
   for (const block of page.blocks || []) {
     const fn = BLOCKS[block.type];

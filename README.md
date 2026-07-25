@@ -68,12 +68,12 @@ Refresh — the page and its menu item exist. Pages are composed from
 
 ### Add a class video
 
-Upload to YouTube, copy the ID (the part after `v=`), then:
+Upload to YouTube, copy the video link, then:
 
 ```js
 {
   title: "Sunset Slow Flow",
-  youtubeId: "XXXXXXXXXXX",
+  youtube: "https://www.youtube.com/watch?v=XXXXXXXXXXX",  // youtu.be / shorts links or a bare ID work too
   style: "Vinyasa", level: "Beginner", duration: "15–30 min",
   minutes: 22, teacher: "Ananya Rao",
   description: "Wind down the day with a soft, steady flow.",

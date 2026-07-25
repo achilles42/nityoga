@@ -10,12 +10,18 @@ function blockHero(b) {
       `<a class="btn ${c.primary ? "btn-primary" : "btn-ghost"}" href="${esc(linkHref(c))}">${esc(c.label)}</a>`)
     .join("");
   return el(`
-    <section class="hero ${b.compact ? "compact" : ""}">
-      <div class="wrap fade-in">
-        ${b.compact ? "" : `<span class="eyebrow">${esc(SITE.brand.tagline)}</span>`}
-        <h1>${esc(b.title)}</h1>
-        ${b.subtitle ? `<p class="subtitle">${esc(b.subtitle)}</p>` : ""}
-        ${ctas ? `<div class="ctas">${ctas}</div>` : ""}
+    <section class="hero ${b.compact ? "compact" : ""} ${b.image ? "has-image" : ""}">
+      <div class="wrap fade-in ${b.image ? "hero-cols" : ""}">
+        <div class="hero-copy">
+          ${b.compact ? "" : `<span class="eyebrow">${esc(SITE.brand.tagline)}</span>`}
+          <h1>${esc(b.title)}</h1>
+          ${b.subtitle ? `<p class="subtitle">${esc(b.subtitle)}</p>` : ""}
+          ${ctas ? `<div class="ctas">${ctas}</div>` : ""}
+        </div>
+        ${b.image ? `
+        <div class="hero-art" aria-hidden="true">
+          <img src="${esc(b.image)}" alt="" />
+        </div>` : ""}
       </div>
     </section>`);
 }
@@ -30,11 +36,12 @@ function blockStats(b) {
 
 /* ---------- video grid (with optional filters) ---------- */
 function videoCard(v) {
+  const id = videoId(v);
   const card = el(`
     <article class="video-card fade-in">
       <div class="player">
         <button class="thumb-btn" type="button" aria-label="Play ${esc(v.title)}">
-          <img loading="lazy" src="${esc(ytThumb(v.youtubeId))}" alt="${esc(v.title)} — video thumbnail" />
+          <img loading="lazy" src="${esc(ytThumb(id))}" alt="${esc(v.title)} — video thumbnail" />
           <span class="play-badge" aria-hidden="true"></span>
           ${v.minutes ? `<span class="duration-chip">${esc(v.minutes)} min</span>` : ""}
         </button>
@@ -54,7 +61,7 @@ function videoCard(v) {
   card.querySelector(".thumb-btn").addEventListener("click", () => {
     const player = card.querySelector(".player");
     player.innerHTML =
-      `<iframe src="${esc(ytEmbed(v.youtubeId))}" title="${esc(v.title)}"
+      `<iframe src="${esc(ytEmbed(id))}" title="${esc(v.title)}"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen></iframe>`;
   });

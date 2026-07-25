@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 500" role="img" aria-label="Illustration of a person meditating at sunrise, surrounded by rings of energy">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e4f2f0"/>
+      <stop offset="1" stop-color="#fdf3e7"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6a45c"/>
+      <stop offset="1" stop-color="#e8843c"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d7a74"/>
+      <stop offset="1" stop-color="#115e59"/>
+    </linearGradient>
+  </defs>
+
+  <!-- backdrop blob -->
+  <path fill="url(#sky)" d="M280 18c118 0 236 76 250 188 13 106-60 208-160 248-97 39-231 27-300-52C1 322 9 205 68 124 122 50 195 18 280 18z"/>
+
+  <!-- energy rings -->
+  <g fill="none" stroke="#1d7a74" stroke-linecap="round">
+    <circle cx="280" cy="250" r="196" stroke-opacity=".14" stroke-width="2"/>
+    <circle cx="280" cy="250" r="160" stroke-opacity=".22" stroke-width="2" stroke-dasharray="4 14"/>
+    <circle cx="280" cy="250" r="126" stroke-opacity=".3" stroke-width="2.5"/>
+  </g>
+
+  <!-- sun -->
+  <circle cx="280" cy="212" r="84" fill="url(#sun)" opacity=".92"/>
+  <g stroke="#e8843c" stroke-width="4" stroke-linecap="round" opacity=".55">
+    <path d="M280 92v-22"/><path d="M366 126l15-15"/><path d="M194 126l-15-15"/>
+    <path d="M402 212h22"/><path d="M136 212h22"/>
+  </g>
+
+  <!-- meditating figure -->
+  <g>
+    <!-- head -->
+    <circle cx="280" cy="196" r="30" fill="url(#body)"/>
+    <!-- hair bun -->
+    <circle cx="280" cy="163" r="11" fill="#115e59"/>
+    <!-- torso -->
+    <path fill="url(#body)" d="M280 226c-30 0-49 22-56 56l-8 44c-2 12 6 20 17 20h94c11 0 19-8 17-20l-8-44c-7-34-26-56-56-56z"/>
+    <!-- arms resting on knees -->
+    <path fill="#115e59" d="M228 268c-20 12-42 34-46 54-2 12 6 20 17 18 18-3 32-20 40-38z"/>
+    <path fill="#115e59" d="M332 268c20 12 42 34 46 54 2 12-6 20-17 18-18-3-32-20-40-38z"/>
+    <!-- crossed legs -->
+    <path fill="#0d4b46" d="M280 322c-52 0-96 14-104 34-6 15 8 24 26 24h156c18 0 32-9 26-24-8-20-52-34-104-34z"/>
+    <!-- palms (mudra dots) -->
+    <circle cx="196" cy="342" r="9" fill="#e8843c"/>
+    <circle cx="364" cy="342" r="9" fill="#e8843c"/>
+  </g>
+
+  <!-- ground -->
+  <path d="M158 396h244" stroke="#e8843c" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+  <path d="M120 418h320" stroke="#1d7a74" stroke-width="4" stroke-linecap="round" opacity=".25"/>
+
+  <!-- floating leaves -->
+  <g fill="#1d7a74">
+    <path opacity=".5" d="M112 150c14-2 24 6 26 18-14 2-24-6-26-18z"/>
+    <path opacity=".35" d="M448 168c-14-2-24 6-26 18 14 2 24-6 26-18z"/>
+    <path opacity=".4" d="M96 300c12-6 24-2 30 8-12 6-24 2-30-8z"/>
+    <path opacity=".3" d="M462 296c-12-6-24-2-30 8 12 6 24 2 30-8z"/>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#e8843c">
+    <circle cx="150" cy="96" r="4" opacity=".6"/>
+    <circle cx="420" cy="88" r="5" opacity=".5"/>
+    <circle cx="486" cy="228" r="4" opacity=".45"/>
+    <circle cx="74" cy="228" r="5" opacity=".5"/>
+  </g>
+</svg>

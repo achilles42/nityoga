@@ -7,12 +7,15 @@
    ▸ Add a menu item       → nav
    ▸ Add a whole new page  → add an entry to `pages`
                              (and a nav item pointing at it)
-   ▸ Add a class video     → append to `classes`
-                             (just the YouTube ID — thumbnail
-                             is fetched automatically)
+   ▸ Add a class video     → append to `classes`. Paste the FULL
+                             YouTube link in `youtube:` (or just the
+                             ID — both work). Thumbnail is fetched
+                             automatically.
 
    Every page is a list of BLOCKS. Available block types:
      hero        {title, subtitle, ctas[], image?}
+                 image → shows art beside the text (2-col on
+                 desktop, stacked on mobile)
      stats       {items:[{value,label}]}
      videoGrid   {title?, subtitle?, source:"classes",
                   filters?:true, limit?, featuredOnly?}
@@ -54,8 +57,9 @@ window.SITE = {
   ],
 
   /* ---------- CLASS LIBRARY ----------
-     youtubeId: the part after v= in the YouTube URL.
-     Replace these sample IDs with your own uploads.       */
+     youtube: paste the full video link straight from YouTube
+     (watch, youtu.be and shorts links all work — a bare ID works too).
+     Replace these sample links with your own uploads.       */
   filters: {
     style:    ["Hatha", "Vinyasa", "Yin", "Power", "Restorative"],
     level:    ["Beginner", "Intermediate", "Advanced"],
@@ -65,7 +69,7 @@ window.SITE = {
   classes: [
     {
       title: "Morning Wake-Up Flow",
-      youtubeId: "v7AYKMP6rOE",
+      youtube: "https://www.youtube.com/watch?v=v7AYKMP6rOE",
       style: "Vinyasa", level: "Beginner", duration: "15–30 min",
       minutes: 20, teacher: "Ananya Rao",
       description: "A gentle sunrise sequence to loosen the spine and set your day in motion.",
@@ -73,7 +77,7 @@ window.SITE = {
     },
     {
       title: "Deep Hip Release — Yin",
-      youtubeId: "4pKly2JojMw",
+      youtube: "https://www.youtube.com/watch?v=4pKly2JojMw",
       style: "Yin", level: "Beginner", duration: "30–60 min",
       minutes: 40, teacher: "Meera Iyer",
       description: "Long, quiet holds that melt tension from hips and lower back.",
@@ -81,7 +85,7 @@ window.SITE = {
     },
     {
       title: "Power Core Burner",
-      youtubeId: "GLy2rYHwUqY",
+      youtube: "https://www.youtube.com/watch?v=GLy2rYHwUqY",
       style: "Power", level: "Intermediate", duration: "15–30 min",
       minutes: 25, teacher: "Dev Sharma",
       description: "A sweat-forward core sequence for strength and stability.",
@@ -89,21 +93,21 @@ window.SITE = {
     },
     {
       title: "Hatha Foundations",
-      youtubeId: "6p_yaNFSYao",
+      youtube: "https://www.youtube.com/watch?v=6p_yaNFSYao",
       style: "Hatha", level: "Beginner", duration: "30–60 min",
       minutes: 35, teacher: "Ananya Rao",
       description: "The essential postures, taught slowly and precisely.",
     },
     {
       title: "Evening Unwind",
-      youtubeId: "BiWDsfZ3zbo",
+      youtube: "https://www.youtube.com/watch?v=BiWDsfZ3zbo",
       style: "Restorative", level: "Beginner", duration: "< 15 min",
       minutes: 12, teacher: "Meera Iyer",
       description: "Twelve minutes to switch off the day before sleep.",
     },
     {
       title: "Advanced Arm Balances",
-      youtubeId: "Eml2xnoLpYE",
+      youtube: "https://www.youtube.com/watch?v=Eml2xnoLpYE",
       style: "Power", level: "Advanced", duration: "30–60 min",
       minutes: 45, teacher: "Dev Sharma",
       description: "Crow to firefly — build the shoulders and focus to fly.",
@@ -120,6 +124,7 @@ window.SITE = {
         { type: "hero",
           title: "Move with intention.\nRest with purpose.",
           subtitle: "Free full-length yoga and mindful-fitness classes, filmed with care and open to everyone — no sign-up, no paywall.",
+          image: "assets/img/hero.svg",   /* swap for your own photo/illustration any time */
           ctas: [
             { label: "Start practising", page: "classes", primary: true },
             { label: "Browse programs", page: "programs" },

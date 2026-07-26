@@ -136,3 +136,5 @@ exception when duplicate_object then null; end $$;
 -- 5 ▸ clean up lookup functions from earlier versions --------------
 drop function if exists public.email_for_phone(text);
 drop function if exists public.email_for_username(text);
+
+

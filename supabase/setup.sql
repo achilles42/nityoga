@@ -83,6 +83,49 @@ drop policy if exists "read own bookings" on public.bookings;
 create policy "read own bookings"
   on public.bookings for select using (auth.uid() = user_id);
 
--- 4 ▸ clean up lookup functions from earlier versions --------------
+-- 4 ▸ admin role ----------------------------------------------------
+-- Admins see every booking (with member details) on the site's
+-- Admin page and can update booking status from there.
+-- To promote a user, run (with the right email):
+--   update public.profiles set is_admin = true
+--   where email = 'nityogaofficial@gmail.com';
+
+alter table public.profiles
+  add column if not exists is_admin boolean not null default false;
+
+-- security definer so RLS policies can call it without recursion
+create or replace function public.is_admin()
+returns boolean
+language sql stable security definer set search_path = public
+as $$
+  select coalesce(
+    (select is_admin from public.profiles where id = auth.uid()),
+    false
+  );
+$$;
+
+grant execute on function public.is_admin() to authenticated;
+
+drop policy if exists "admin reads all profiles" on public.profiles;
+create policy "admin reads all profiles"
+  on public.profiles for select using (public.is_admin());
+
+drop policy if exists "admin reads all bookings" on public.bookings;
+create policy "admin reads all bookings"
+  on public.bookings for select using (public.is_admin());
+
+drop policy if exists "admin updates bookings" on public.bookings;
+create policy "admin updates bookings"
+  on public.bookings for update
+  using (public.is_admin()) with check (public.is_admin());
+
+-- FK bookings → profiles so the API can join member details
+do $$ begin
+  alter table public.bookings
+    add constraint bookings_user_profile_fk
+    foreign key (user_id) references public.profiles (id) on delete cascade;
+exception when duplicate_object then null; end $$;
+
+-- 5 ▸ clean up lookup functions from earlier versions --------------
 drop function if exists public.email_for_phone(text);
 drop function if exists public.email_for_username(text);

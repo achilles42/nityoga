@@ -19,11 +19,18 @@ function renderPage(pageKey) {
 
   document.title = `${t(page.title)} · ${SITE.brand.name}`;
 
-  /* members-only page + not logged in → login prompt instead */
-  if (page.authOnly && typeof authUser !== "undefined" && !authUser
-      && typeof authGate === "function") {
+  /* members-only page + not logged in → login prompt instead;
+     admin-only page + not an admin → polite refusal */
+  const loggedIn = typeof authUser !== "undefined" && authUser;
+  const admin = typeof authIsAdmin !== "undefined" && authIsAdmin;
+  if ((page.authOnly || page.adminOnly) && !loggedIn && typeof authGate === "function") {
     main.append(el(`<section class="section"><div class="wrap book-wrap"></div></section>`));
     main.querySelector(".wrap").append(authGate());
+    return;
+  }
+  if (page.adminOnly && !admin) {
+    main.append(el(`<section class="section"><div class="wrap">
+      <div class="empty">${esc(str("adminOnlyMsg"))}</div></div></section>`));
     return;
   }
 

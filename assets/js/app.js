@@ -39,11 +39,16 @@
   }
 
   /* ---- nav (supports one level of dropdowns via `children`) ---- */
-  /* items pointing at an authOnly page are hidden until login */
+  /* items pointing at an authOnly page are hidden until login;
+     adminOnly pages additionally need the admin flag */
   function navVisible(n) {
     const page = SITE.pages[n.page];
+    if (!page) return true;
     const loggedIn = typeof authUser !== "undefined" && authUser;
-    return !(page && page.authOnly && !loggedIn);
+    const admin = typeof authIsAdmin !== "undefined" && authIsAdmin;
+    if (page.adminOnly) return !!admin;
+    if (page.authOnly) return !!loggedIn;
+    return true;
   }
 
   function navItems() {

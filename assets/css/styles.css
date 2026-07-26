@@ -645,6 +645,37 @@ a.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .status-chip.s-new { background: color-mix(in srgb, var(--c-accent) 16%, white); color: #7c4a12; }
 .status-chip.s-active { background: var(--c-primary); color: #fff; }
 
+/* ---------- admin table ---------- */
+.admin-table-wrap {
+  overflow-x: auto;
+  background: var(--c-surface); border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+}
+.admin-table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 720px; }
+.admin-table th {
+  text-align: left; font-size: .72rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--c-ink-soft);
+  padding: 14px 16px; border-bottom: 1px solid var(--c-line);
+}
+.admin-table td {
+  padding: 13px 16px; border-bottom: 1px solid var(--c-line);
+  vertical-align: top;
+}
+.admin-table tr:last-child td { border-bottom: 0; }
+.admin-table small { color: var(--c-ink-soft); }
+.admin-table small.note { font-style: italic; }
+.admin-table a { color: var(--c-primary-dark); text-decoration: none; }
+.admin-table a:hover { text-decoration: underline; }
+.status-sel {
+  font: inherit; font-size: .84rem; font-weight: 600;
+  border: 1px solid var(--c-line); border-radius: 999px;
+  padding: 5px 10px; cursor: pointer;
+  background: var(--c-primary-soft); color: var(--c-primary-dark);
+}
+.status-sel.s-new { background: color-mix(in srgb, var(--c-accent) 16%, white); color: #7c4a12; }
+.status-sel.s-active { background: var(--c-primary); color: #fff; }
+.status-sel.s-closed { background: var(--c-bg); color: var(--c-ink-soft); }
+
 /* ---------- misc ---------- */
 .fade-in { animation: fadeUp .45s ease both; }
 @keyframes fadeUp {

@@ -119,6 +119,7 @@ window.SITE = {
     { label: { en: "Gallery", hi: "गैलरी", sa: "चित्रशाला" }, page: "gallery" },
     { label: { en: "Payment", hi: "भुगतान", sa: "शुल्कम्" }, page: "payment" },
     { label: { en: "Contact", hi: "संपर्क", sa: "सम्पर्कः" }, page: "contact" },
+    { label: { en: "Admin", hi: "एडमिन", sa: "प्रशासकः" }, page: "admin" },
   ],
 
   /* ---------- CLASS LIBRARY ----------
@@ -527,6 +528,20 @@ window.SITE = {
       ],
     },
 
+    admin: {
+      title: { en: "Admin", hi: "एडमिन", sa: "प्रशासकः" },
+      adminOnly: true,   /* page + nav item only for admin users */
+      blocks: [
+        { type: "hero", compact: true,
+          title: { en: "All bookings", hi: "सभी बुकिंग्स", sa: "सर्वाणि आरक्षणानि" },
+          subtitle: { en: "Every booking request with member contact details, newest first.",
+                      hi: "हर बुकिंग अनुरोध, सदस्य संपर्क विवरण सहित — नवीनतम पहले।",
+                      sa: "सर्वाणि आरक्षणानि सम्पर्कविवरणैः सह।" },
+        },
+        { type: "adminBookings" },
+      ],
+    },
+
     payment: {
       title: { en: "Payment", hi: "भुगतान", sa: "शुल्कम्" },
       authOnly: true,   /* page + nav item only for logged-in users */
@@ -641,6 +656,15 @@ window.SITE = {
     myBookings:       { en: "My bookings", hi: "मेरी बुकिंग्स", sa: "मम आरक्षणानि" },
     loginToBook:      { en: "Login to book your class", hi: "बुकिंग के लिए लॉगिन करें", sa: "आरक्षणाय प्रविशतु" },
     loginToBookHint:  { en: "Create a free account or log in — booking takes under a minute.", hi: "मुफ़्त खाता बनाएँ या लॉगिन करें — बुकिंग में एक मिनट से भी कम लगता है।", sa: "खातं रचयित्वा प्रविशतु — क्षणमात्रं भवति।" },
+
+    /* admin */
+    adminOnlyMsg:     { en: "This page is for admins only.", hi: "यह पेज केवल एडमिन के लिए है।", sa: "इदं पृष्ठं प्रशासकेभ्यः एव।" },
+    adminNoBookings:  { en: "No bookings yet.", hi: "अभी कोई बुकिंग नहीं।", sa: "अद्यापि आरक्षणं नास्ति।" },
+    thWhen:           { en: "Booked on", hi: "बुकिंग तिथि", sa: "आरक्षणदिनम्" },
+    thMember:         { en: "Member", hi: "सदस्य", sa: "सदस्यः" },
+    thBooking:        { en: "Class", hi: "कक्षा", sa: "कक्षा" },
+    thSlot:           { en: "Slot", hi: "समय", sa: "समयः" },
+    thStatus:         { en: "Status", hi: "स्थिति", sa: "स्थितिः" },
   },
 
   footer: {

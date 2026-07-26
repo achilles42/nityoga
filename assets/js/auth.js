@@ -19,6 +19,14 @@ const sb = (() => {
 })();
 
 let authUser = null;
+let authIsAdmin = false;
+
+async function refreshAdminFlag() {
+  if (!authUser) { authIsAdmin = false; return; }
+  const { data } = await sb.from("profiles")
+    .select("is_admin").eq("id", authUser.id).single();
+  authIsAdmin = !!(data && data.is_admin);
+}
 
 if (sb) {
   sb.auth.onAuthStateChange((_event, session) => {
@@ -26,8 +34,12 @@ if (sb) {
     authUser = session?.user || null;
     renderAuthSlot();
     /* re-render header + current page so login-aware nav items and
-       blocks (booking, payment) switch to the right state */
-    if (changed) window.dispatchEvent(new CustomEvent("auth-changed"));
+       blocks (booking, payment, admin) switch to the right state.
+       setTimeout: supabase queries must not run inside this callback. */
+    if (changed) setTimeout(async () => {
+      await refreshAdminFlag();
+      window.dispatchEvent(new CustomEvent("auth-changed"));
+    }, 0);
   });
 }
 
@@ -379,3 +391,88 @@ function blockBooking() {
 }
 
 BLOCKS.booking = blockBooking;
+
+/* ---------- admin block (the Admin page) ----------
+   Every booking from every member, with their contact details,
+   newest first. The status dropdown saves straight to the DB. */
+const BOOKING_STATUSES = ["new", "contacted", "active", "closed"];
+
+function blockAdminBookings() {
+  const section = el(`<section class="section"><div class="wrap"></div></section>`);
+  const wrap = section.querySelector(".wrap");
+
+  if (!sb || !authUser || !authIsAdmin) {
+    wrap.append(authUser
+      ? el(`<div class="empty">${esc(str("adminOnlyMsg"))}</div>`)
+      : authGate());
+    return section;
+  }
+
+  const box = el(`
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr>
+          <th>${esc(str("thWhen"))}</th>
+          <th>${esc(str("thMember"))}</th>
+          <th>${esc(str("thBooking"))}</th>
+          <th>${esc(str("plan"))}</th>
+          <th>${esc(str("thSlot"))}</th>
+          <th>${esc(str("thStatus"))}</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>`);
+  const tbody = box.querySelector("tbody");
+
+  (async () => {
+    const { data, error } = await sb.from("bookings")
+      .select("id,class_type,program,preferred_time,plan,start_date,notes,status,created_at,profiles(full_name,email,phone)")
+      .order("created_at", { ascending: false });
+    if (error) {
+      wrap.append(el(`<div class="empty">${esc(error.message)}</div>`));
+      return;
+    }
+    if (!data.length) {
+      wrap.append(el(`<div class="empty">${esc(str("adminNoBookings"))}</div>`));
+      return;
+    }
+    const day = (d) => d ? new Date(d).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "—";
+    data.forEach((b) => {
+      const p = b.profiles || {};
+      const row = el(`
+        <tr>
+          <td>${esc(day(b.created_at))}</td>
+          <td>
+            <b>${esc(p.full_name || "—")}</b><br>
+            ${p.email ? `<a href="mailto:${esc(p.email)}">${esc(p.email)}</a><br>` : ""}
+            ${p.phone ? `<a href="tel:+${esc(p.phone)}">+${esc(p.phone)}</a>` : ""}
+          </td>
+          <td>${esc(b.class_type)}<br><small>${esc(b.program)}</small>
+            ${b.notes ? `<br><small class="note">“${esc(b.notes)}”</small>` : ""}</td>
+          <td>${esc(b.plan)}<br><small>${esc(day(b.start_date))}</small></td>
+          <td>${esc(b.preferred_time)}</td>
+          <td>
+            <select class="status-sel s-${esc(b.status)}">
+              ${BOOKING_STATUSES.map((s) =>
+                `<option ${s === b.status ? "selected" : ""}>${esc(s)}</option>`).join("")}
+            </select>
+          </td>
+        </tr>`);
+      const sel = row.querySelector("select");
+      sel.addEventListener("change", async () => {
+        sel.disabled = true;
+        const { error: err } = await sb.from("bookings")
+          .update({ status: sel.value }).eq("id", b.id);
+        if (err) alert(err.message);
+        sel.className = `status-sel s-${sel.value}`;
+        sel.disabled = false;
+      });
+      tbody.append(row);
+    });
+    wrap.append(box);
+  })();
+
+  return section;
+}
+
+BLOCKS.adminBookings = blockAdminBookings;

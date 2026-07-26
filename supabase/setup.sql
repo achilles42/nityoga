@@ -33,6 +33,13 @@ drop policy if exists "update own profile" on public.profiles;
 create policy "update own profile"
   on public.profiles for update using (auth.uid() = id);
 
+-- RLS limits *which rows* a user can update, not which columns.
+-- Without this, anyone could set is_admin = true on their own row.
+-- Column-level grants: users may edit only their name and phone;
+-- id / email / is_admin are read-only through the API.
+revoke update on table public.profiles from anon, authenticated;
+grant update (full_name, phone) on table public.profiles to authenticated;
+
 -- 2 ▸ copy each new signup into profiles ---------------------------
 create or replace function public.handle_new_user()
 returns trigger

@@ -65,7 +65,6 @@ function authErrorMessage(error) {
 function renderAuthSlot() {
   const slot = document.getElementById("authSlot");
   if (!slot) return;
-  if (!sb) { slot.innerHTML = ""; return; }
 
   if (!authUser) {
     slot.innerHTML = `

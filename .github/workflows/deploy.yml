@@ -1,0 +1,53 @@
+# Deploys the site to GitHub Pages, injecting the Supabase
+# credentials from repository secrets so they never live in git.
+#
+# One-time setup in the GitHub repo:
+#   1. Settings → Secrets and variables → Actions → New repository
+#      secret: SUPABASE_URL and SUPABASE_ANON_KEY
+#   2. Settings → Pages → Build and deployment → Source:
+#      change "Deploy from a branch" to "GitHub Actions"
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write Supabase credentials from secrets
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          cat > config/supabase.local.js <<EOF
+          window.SUPABASE_LOCAL = {
+            url: "${SUPABASE_URL}",
+            anonKey: "${SUPABASE_ANON_KEY}",
+          };
+          EOF
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -6,10 +6,9 @@
 --   1. profiles table: one row per user (name, email, phone),
 --     readable/updatable only by that user (RLS).
 --   2. Trigger: every new signup automatically gets a profiles row,
---     copying the phone number from the signup form.
---   3. email_for_phone(): lets the login form accept a phone number
---     by resolving it to the account's email. It only ever returns
---     an email address, nothing else.
+--     copying the name + phone from the signup form.
+-- Login is email + password, so no lookup functions are needed.
+-- Safe to re-run over an existing setup.
 
 -- 1 ▸ profiles ------------------------------------------------------
 create table if not exists public.profiles (
@@ -53,19 +52,6 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
--- 3 ▸ phone → email lookup (used by "login with phone") ------------
--- Matches on the last 10 digits so "+91 98765…", "098765…" and
--- "98765…" all find the same account.
-create or replace function public.email_for_phone(p_phone text)
-returns text
-language sql stable security definer set search_path = public
-as $$
-  select email
-  from public.profiles
-  where phone <> ''
-    and right(phone, 10) = right(regexp_replace(p_phone, '\D', '', 'g'), 10)
-  order by created_at desc
-  limit 1;
-$$;
-
-grant execute on function public.email_for_phone(text) to anon, authenticated;
+-- 3 ▸ clean up lookup functions from earlier versions --------------
+drop function if exists public.email_for_phone(text);
+drop function if exists public.email_for_username(text);

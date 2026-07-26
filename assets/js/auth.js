@@ -4,13 +4,15 @@
    If SITE.supabase is left empty the login button stays hidden and
    the site works exactly as before.
 
-   Signup stores email + phone + password; login accepts email OR
-   phone (phone is resolved to the account email via the
-   email_for_phone() function created by setup.sql).               */
+   Signup stores name + email + phone + password; login is
+   email + password (your email is your username).                 */
 "use strict";
 
 const sb = (() => {
-  const { url, anonKey } = SITE.supabase || {};
+  /* credentials come from config/supabase.local.js (gitignored;
+     generated from repo secrets on deploy), with SITE.supabase
+     as a fallback for anyone who prefers configuring it there */
+  const { url, anonKey } = window.SUPABASE_LOCAL || SITE.supabase || {};
   return url && anonKey && window.supabase
     ? window.supabase.createClient(url, anonKey)
     : null;
@@ -50,8 +52,11 @@ function renderAuthSlot() {
   if (!sb) { slot.innerHTML = ""; return; }
 
   if (!authUser) {
-    slot.innerHTML = `<button type="button" class="btn btn-primary btn-sm">${esc(str("login"))}</button>`;
-    slot.firstElementChild.addEventListener("click", () => openAuthModal("login"));
+    slot.innerHTML = `
+      <button type="button" class="btn btn-ghost btn-sm" data-mode="login">${esc(str("login"))}</button>
+      <button type="button" class="btn btn-primary btn-sm" data-mode="signup">${esc(str("signup"))}</button>`;
+    slot.querySelectorAll("button").forEach((b) =>
+      b.addEventListener("click", () => openAuthModal(b.dataset.mode)));
     return;
   }
 
@@ -89,16 +94,11 @@ function openAuthModal(mode) {
       <div class="auth-card" role="dialog" aria-modal="true" aria-label="${esc(str("login"))}">
         <button type="button" class="auth-close" aria-label="${esc(str("close"))}">✕</button>
 
-        <div class="auth-tabs" role="tablist">
-          <button type="button" class="auth-tab" data-mode="login">${esc(str("login"))}</button>
-          <button type="button" class="auth-tab" data-mode="signup">${esc(str("signup"))}</button>
-        </div>
-
         <form class="auth-form" data-mode="login">
           <h3>${esc(str("authWelcomeBack"))}</h3>
-          <label>${esc(str("emailOrPhone"))}
-            <input name="identifier" autocomplete="username" required
-              placeholder="you@example.com · 98765 43210" />
+          <label>${esc(str("emailLabel"))}
+            <input name="identifier" type="email" autocomplete="username" required
+              placeholder="you@example.com" />
           </label>
           <label>${esc(str("passwordLabel"))}
             <input name="password" type="password" autocomplete="current-password" required />
@@ -126,6 +126,9 @@ function openAuthModal(mode) {
             <input name="password" type="password" autocomplete="new-password" required minlength="6" />
             <small>${esc(str("passwordHint"))}</small>
           </label>
+          <label>${esc(str("confirmPassword"))}
+            <input name="password2" type="password" autocomplete="new-password" required minlength="6" />
+          </label>
           <p class="auth-msg" hidden></p>
           <button class="btn btn-primary" type="submit">${esc(str("createAccount"))}</button>
           <p class="auth-switch">${esc(str("haveAccount"))}
@@ -144,15 +147,15 @@ function openAuthModal(mode) {
   overlay.querySelector(".auth-close").addEventListener("click", close);
 
   const setMode = (m) => {
-    overlay.querySelectorAll(".auth-tab").forEach((tab) =>
-      tab.classList.toggle("active", tab.dataset.mode === m));
     overlay.querySelectorAll(".auth-form").forEach((f) => {
       f.hidden = f.dataset.mode !== m;
     });
+    overlay.querySelector(".auth-card").setAttribute("aria-label",
+      str(m === "signup" ? "signup" : "login"));
     overlay.querySelector(`.auth-form[data-mode="${m}"] input`).focus();
   };
-  overlay.querySelectorAll(".auth-tab, [data-goto]").forEach((b) =>
-    b.addEventListener("click", () => setMode(b.dataset.goto || b.dataset.mode)));
+  overlay.querySelectorAll("[data-goto]").forEach((b) =>
+    b.addEventListener("click", () => setMode(b.dataset.goto)));
 
   const showMsg = (form, text, ok = false) => {
     const p = form.querySelector(".auth-msg");
@@ -166,7 +169,7 @@ function openAuthModal(mode) {
     b.classList.toggle("loading", on);
   };
 
-  /* login: email, or phone → email via the SQL lookup */
+  /* login: email + password */
   overlay.querySelector('.auth-form[data-mode="login"]').addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -174,17 +177,9 @@ function openAuthModal(mode) {
     showMsg(form, "");
     busy(form, true);
     try {
-      const id = form.identifier.value.trim();
-      let email = id;
-      if (!id.includes("@")) {
-        const digits = phoneDigits(id);
-        if (digits.length < 10) return showMsg(form, str("authPhoneInvalid"));
-        const { data, error } = await sb.rpc("email_for_phone", { p_phone: digits });
-        if (error || !data) return showMsg(form, str("authNoPhone"));
-        email = data;
-      }
       const { error } = await sb.auth.signInWithPassword({
-        email, password: form.password.value,
+        email: form.identifier.value.trim(),
+        password: form.password.value,
       });
       if (error) return showMsg(form, authErrorMessage(error));
       close();
@@ -203,6 +198,8 @@ function openAuthModal(mode) {
     if (!form.reportValidity()) return;
     const digits = phoneDigits(form.phone.value);
     if (digits.length < 10) return showMsg(form, str("authPhoneInvalid"));
+    if (form.password.value !== form.password2.value)
+      return showMsg(form, str("authPasswordMismatch"));
     showMsg(form, "");
     busy(form, true);
     try {

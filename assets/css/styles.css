@@ -580,20 +580,9 @@ a.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 }
 .auth-close:hover { background: var(--c-line); }
 
-.auth-tabs {
-  display: flex; gap: 2px; background: var(--c-primary-soft);
-  border-radius: 999px; padding: 4px; margin: 4px 0 22px;
-}
-.auth-tab {
-  flex: 1; border: 0; background: none; cursor: pointer;
-  font: inherit; font-weight: 600; font-size: .95rem;
-  color: var(--c-primary-dark); padding: 9px; border-radius: 999px;
-  transition: background .2s, color .2s;
-}
-.auth-tab.active { background: var(--c-primary); color: #fff; }
-
-.auth-form { display: grid; gap: 14px; }
-.auth-form h3 { margin: 0 0 2px; }
+.auth-form { display: grid; gap: 14px; margin-top: 6px; }
+.auth-form[hidden] { display: none; }
+.auth-form h3 { margin: 0 0 6px; font-size: 1.5rem; }
 .auth-form label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
 .auth-form label small { font-weight: 400; color: var(--c-ink-soft); }
 .auth-form input {

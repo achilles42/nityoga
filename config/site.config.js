@@ -90,17 +90,18 @@ window.SITE = {
   },
 
   /* ---------- SUPABASE (login / signup) ----------
-     1. Create a free project at https://supabase.com
-     2. Project Settings → API → copy the Project URL and the
-        "anon public" key into the two fields below.
-     3. Open the SQL Editor and run supabase/setup.sql once
-        (creates the profiles table + the phone-login lookup).
-     4. Optional, smoothest flow: Authentication → Sign In / Up →
-        turn OFF "Confirm email" so signup logs users in instantly.
-     Leave url/anonKey empty to hide the login button entirely.  */
+     Credentials live in config/supabase.local.js (gitignored) —
+     copy config/supabase.local.example.js to that name and fill it
+     in. In production the deploy workflow generates the same file
+     from the SUPABASE_URL / SUPABASE_ANON_KEY repo secrets.
+     One-time project setup: run supabase/setup.sql in the SQL
+     Editor, and (optional, smoothest flow) turn OFF "Confirm
+     email" under Authentication → Sign In / Up.
+     You may also put the url/anonKey here instead — the anon key is
+     public by design — but supabase.local.js wins if present.    */
   supabase: {
-    url: "",       // e.g. "https://abcd1234.supabase.co"
-    anonKey: "",   // the long "anon public" key
+    url: "",
+    anonKey: "",
   },
 
   nav: [
@@ -568,15 +569,15 @@ window.SITE = {
     logout:           { en: "Sign out", hi: "साइन आउट", sa: "निर्गमनम्" },
     passwordLabel:    { en: "Password", hi: "पासवर्ड", sa: "गूढपदम्" },
     passwordHint:     { en: "At least 6 characters.", hi: "कम से कम 6 अक्षर।", sa: "न्यूनतया ६ वर्णाः।" },
-    emailOrPhone:     { en: "Email or phone", hi: "ईमेल या फ़ोन", sa: "ईमेल अथवा दूरभाषः" },
+    confirmPassword:  { en: "Confirm password", hi: "पासवर्ड दोबारा लिखें", sa: "गूढपदं पुनः लिखतु" },
+    authPasswordMismatch: { en: "Passwords don't match.", hi: "दोनों पासवर्ड मेल नहीं खाते।", sa: "गूढपदे न तुल्ये।" },
     createAccount:    { en: "Create account", hi: "खाता बनाएँ", sa: "खातं रचयतु" },
     authWelcomeBack:  { en: "Welcome back", hi: "पुनः स्वागत है", sa: "पुनः स्वागतम्" },
     authJoin:         { en: "Create your account", hi: "अपना खाता बनाएँ", sa: "स्वखातं रचयतु" },
     noAccount:        { en: "New to NitYoga?", hi: "नया खाता चाहिए?", sa: "नूतनं खातं इच्छसि?" },
     haveAccount:      { en: "Already have an account?", hi: "पहले से खाता है?", sa: "खातम् अस्ति वा?" },
     authCheckEmail:   { en: "Almost there — open the confirmation link we emailed you, then log in.", hi: "लगभग हो गया — ईमेल में भेजी गई पुष्टि लिंक खोलें, फिर लॉगिन करें।", sa: "ईमेल-पुष्टिं कृत्वा प्रविशतु।" },
-    authBadLogin:     { en: "Incorrect email/phone or password.", hi: "ईमेल/फ़ोन या पासवर्ड ग़लत है।", sa: "प्रवेशविवरणम् अशुद्धम्।" },
-    authNoPhone:      { en: "No account found with that phone number.", hi: "इस फ़ोन नंबर से कोई खाता नहीं मिला।", sa: "अनेन दूरभाषाङ्केन खातं न प्राप्तम्।" },
+    authBadLogin:     { en: "Incorrect email or password.", hi: "ईमेल या पासवर्ड ग़लत है।", sa: "प्रवेशविवरणम् अशुद्धम्।" },
     authConfirmFirst: { en: "Please confirm your email first — check your inbox.", hi: "पहले अपनी ईमेल की पुष्टि करें — इनबॉक्स देखें।", sa: "प्रथमम् ईमेल-पुष्टिं कुरु।" },
     authExists:       { en: "An account with this email already exists — try logging in.", hi: "इस ईमेल से खाता पहले से है — लॉगिन करें।", sa: "खातम् अस्ति एव — प्रविशतु।" },
     authPhoneInvalid: { en: "Please enter a valid phone number (at least 10 digits).", hi: "मान्य फ़ोन नंबर दर्ज करें (कम से कम 10 अंक)।", sa: "शुद्धं दूरभाषाङ्कं लिखतु।" },

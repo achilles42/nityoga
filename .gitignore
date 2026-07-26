@@ -1,0 +1,7 @@
+# Real Supabase credentials — never committed.
+# Local dev: copy config/supabase.local.example.js to this name.
+# Production: the deploy workflow generates it from repo secrets.
+config/supabase.local.js
+
+# OS noise
+.DS_Store

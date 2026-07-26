@@ -39,6 +39,21 @@
   }
 
   /* ---- nav (supports one level of dropdowns via `children`) ---- */
+  /* items pointing at an authOnly page are hidden until login */
+  function navVisible(n) {
+    const page = SITE.pages[n.page];
+    const loggedIn = typeof authUser !== "undefined" && authUser;
+    return !(page && page.authOnly && !loggedIn);
+  }
+
+  function navItems() {
+    return SITE.nav
+      .map((n) => n.children
+        ? { ...n, children: n.children.filter(navVisible) }
+        : n)
+      .filter((n) => navVisible(n) && !(n.children && !n.children.length));
+  }
+
   function navItemHtml(n) {
     if (n.children) {
       return `
@@ -69,7 +84,7 @@
           </svg>
         </button>
         <nav class="nav" id="siteNav" aria-label="Main">
-          ${SITE.nav.map(navItemHtml).join("")}
+          ${navItems().map(navItemHtml).join("")}
         </nav>
         <div class="auth-slot" id="authSlot"></div>
       </div>`;
@@ -147,6 +162,8 @@
   }
 
   window.addEventListener("hashchange", route);
+  /* login / logout: rebuild header (nav visibility) + current page */
+  window.addEventListener("auth-changed", () => { renderChrome(); route(); });
   renderChrome();
   route();
 })();

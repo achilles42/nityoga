@@ -25,9 +25,9 @@ if (sb) {
     const changed = (session?.user?.id || null) !== (authUser?.id || null);
     authUser = session?.user || null;
     renderAuthSlot();
-    /* re-render the current page so login-aware blocks (booking)
-       switch between the login prompt and the real content */
-    if (changed) window.dispatchEvent(new HashChangeEvent("hashchange"));
+    /* re-render header + current page so login-aware nav items and
+       blocks (booking, payment) switch to the right state */
+    if (changed) window.dispatchEvent(new CustomEvent("auth-changed"));
   });
 }
 
@@ -226,6 +226,23 @@ function openAuthModal(mode) {
   setMode(mode || "login");
 }
 
+/* Login prompt shown in place of members-only content
+   (booking form, payment page). */
+function authGate() {
+  const gate = el(`
+    <div class="book-gate">
+      <h2>${esc(str("loginToBook"))}</h2>
+      <p>${esc(str("loginToBookHint"))}</p>
+      <div class="ctas">
+        <button type="button" class="btn btn-primary" data-m="login">${esc(str("login"))}</button>
+        <button type="button" class="btn btn-ghost" data-m="signup">${esc(str("signup"))}</button>
+      </div>
+    </div>`);
+  gate.querySelectorAll("[data-m]").forEach((b) =>
+    b.addEventListener("click", () => openAuthModal(b.dataset.m)));
+  return gate;
+}
+
 /* ---------- booking block ("Book a Class" page) ----------
    Lives here (not blocks.js) because it needs the Supabase client
    and the login state. Registered into the BLOCKS registry below. */
@@ -240,17 +257,7 @@ function blockBooking() {
 
   /* logged out → friendly gate with login / signup */
   if (!authUser) {
-    wrap.append(el(`
-      <div class="book-gate">
-        <h2>${esc(str("loginToBook"))}</h2>
-        <p>${esc(str("loginToBookHint"))}</p>
-        <div class="ctas">
-          <button type="button" class="btn btn-primary" data-m="login">${esc(str("login"))}</button>
-          <button type="button" class="btn btn-ghost" data-m="signup">${esc(str("signup"))}</button>
-        </div>
-      </div>`));
-    wrap.querySelectorAll("[data-m]").forEach((b) =>
-      b.addEventListener("click", () => openAuthModal(b.dataset.m)));
+    wrap.append(authGate());
     return section;
   }
 

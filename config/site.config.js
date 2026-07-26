@@ -529,6 +529,7 @@ window.SITE = {
 
     payment: {
       title: { en: "Payment", hi: "भुगतान", sa: "शुल्कम्" },
+      authOnly: true,   /* page + nav item only for logged-in users */
       blocks: [
         { type: "hero", compact: true,
           title: { en: "Payment", hi: "भुगतान", sa: "शुल्कम्" },

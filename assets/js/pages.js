@@ -19,6 +19,14 @@ function renderPage(pageKey) {
 
   document.title = `${t(page.title)} · ${SITE.brand.name}`;
 
+  /* members-only page + not logged in → login prompt instead */
+  if (page.authOnly && typeof authUser !== "undefined" && !authUser
+      && typeof authGate === "function") {
+    main.append(el(`<section class="section"><div class="wrap book-wrap"></div></section>`));
+    main.querySelector(".wrap").append(authGate());
+    return;
+  }
+
   for (const block of page.blocks || []) {
     const fn = BLOCKS[block.type];
     if (!fn) {

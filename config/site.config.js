@@ -73,7 +73,7 @@ window.SITE = {
   /* ---------- TOP BAR (phone, email, socials) ---------- */
   topbar: {
     phone: "+91 756 6687 916",
-    email: "hello@nityoga.com",
+    email: "nityogaofficial@gmail.com",
     social: [
       { icon: "facebook",  href: "https://www.facebook.com/" },
       { icon: "instagram", href: "https://www.instagram.com/yogacharay_nitesh_shukla/" },
@@ -239,7 +239,7 @@ window.SITE = {
       sa: "रामझूला-समीपे, हृषीकेशः, उत्तराखण्डः 249304",
     },
     phone: "+91 756 6687 916",
-    email: "hello@nityoga.com",
+    email: "nityogaofficial@gmail.com",
     hours: {
       en: "Mon–Sat · 6:00–10:00 & 16:00–19:00 IST",
       hi: "सोम–शनि · 6:00–10:00 व 16:00–19:00 IST",

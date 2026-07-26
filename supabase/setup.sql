@@ -7,6 +7,10 @@
 --     readable/updatable only by that user (RLS).
 --   2. Trigger: every new signup automatically gets a profiles row,
 --     copying the name + phone from the signup form.
+--   3. bookings table: class-booking requests from the "Book a
+--     Class" page. Users can create and see only their own; your
+--     team updates `status` from the Supabase dashboard
+--     (Table Editor) as requests are handled.
 -- Login is email + password, so no lookup functions are needed.
 -- Safe to re-run over an existing setup.
 
@@ -52,6 +56,33 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
 
--- 3 ▸ clean up lookup functions from earlier versions --------------
+-- 3 ▸ bookings ------------------------------------------------------
+create table if not exists public.bookings (
+  id             uuid primary key default gen_random_uuid(),
+  user_id        uuid not null references auth.users (id) on delete cascade,
+  class_type     text not null,   -- Individual / Group / Corporate
+  program        text not null,   -- chosen focus / asana program
+  preferred_time text not null,   -- slot, e.g. "6–7 AM"
+  plan           text not null,   -- "Single class" / "30-day subscription"
+  start_date     date,            -- class date, or subscription start
+  notes          text,
+  status         text not null default 'new',  -- new → contacted → active → closed
+  created_at     timestamptz not null default now()
+);
+
+-- for tables created by an earlier version of this script
+alter table public.bookings add column if not exists start_date date;
+
+alter table public.bookings enable row level security;
+
+drop policy if exists "insert own booking" on public.bookings;
+create policy "insert own booking"
+  on public.bookings for insert with check (auth.uid() = user_id);
+
+drop policy if exists "read own bookings" on public.bookings;
+create policy "read own bookings"
+  on public.bookings for select using (auth.uid() = user_id);
+
+-- 4 ▸ clean up lookup functions from earlier versions --------------
 drop function if exists public.email_for_phone(text);
 drop function if exists public.email_for_username(text);

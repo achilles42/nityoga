@@ -107,6 +107,7 @@ window.SITE = {
   nav: [
     { label: { en: "Home", hi: "होम", sa: "गृहम्" }, page: "home" },
     { label: { en: "Classes", hi: "कक्षाएँ", sa: "कक्षाः" }, page: "classes" },
+    { label: { en: "Book a Class", hi: "कक्षा बुक करें", sa: "कक्षां आरक्षतु" }, page: "book" },
     { label: { en: "Services", hi: "सेवाएँ", sa: "सेवाः" },
       children: [
         { label: { en: "Corporate Yoga", hi: "कॉर्पोरेट योग", sa: "संस्था-योगः" }, page: "corporate" },
@@ -156,6 +157,34 @@ window.SITE = {
       featured: true,
     },
   ],
+
+  /* ---------- BOOKING (the Book a Class page) ----------
+     Options shown in the booking form. Stored values are the
+     English text; add/remove entries freely. Requires login —
+     bookings are saved to the Supabase `bookings` table
+     (created by supabase/setup.sql).                        */
+  booking: {
+    classTypes: [
+      { en: "Individual (1-on-1)", hi: "व्यक्तिगत (1-on-1)", sa: "वैयक्तिकम् (1-on-1)" },
+      { en: "Group class", hi: "समूह कक्षा", sa: "समूहकक्षा" },
+      { en: "Corporate", hi: "कॉर्पोरेट", sa: "संस्थागतम्" },
+    ],
+    programs: [
+      { en: "General fitness yoga", hi: "सामान्य फिटनेस योग", sa: "सामान्य-स्वास्थ्य-योगः" },
+      { en: "Hatha foundations", hi: "हठ योग की नींव", sa: "हठयोग-आधाराः" },
+      { en: "Asana intensive", hi: "आसन गहन अभ्यास", sa: "आसन-गहनाभ्यासः" },
+      { en: "Pranayama & meditation", hi: "प्राणायाम और ध्यान", sa: "प्राणायामः ध्यानं च" },
+      { en: "Back-pain relief", hi: "कमर दर्द से राहत", sa: "पृष्ठवेदना-शमनम्" },
+      { en: "Flexibility & mobility", hi: "लचीलापन और गतिशीलता", sa: "नम्यता चलता च" },
+      { en: "Weight management", hi: "वज़न प्रबंधन", sa: "भार-प्रबन्धनम्" },
+    ],
+    times: ["6–7 AM", "7–8 AM", "8–9 AM", "4–5 PM", "5–6 PM", "6–7 PM", "7–8 PM"],
+    plans: [
+      { en: "Single class", hi: "एक कक्षा", sa: "एका कक्षा" },
+      { en: "30-day subscription", hi: "30 दिन की सदस्यता", sa: "त्रिंशद्दिन-सदस्यता" },
+    ],
+    subscriptionDays: 30,   // length of a subscription, used for the validity hint
+  },
 
   /* ---------- GALLERY ----------
      Drop photos in assets/img/gallery/ and add a line here.
@@ -308,6 +337,19 @@ window.SITE = {
                       sa: "शैली-स्तर-अवधिभिः चिनु — ततः अभ्यासम् आरभस्व।" },
         },
         { type: "videoGrid", source: "classes", filters: true },
+      ],
+    },
+
+    book: {
+      title: { en: "Book a Class", hi: "कक्षा बुक करें", sa: "कक्षां आरक्षतु" },
+      blocks: [
+        { type: "hero", compact: true,
+          title: { en: "Book your class", hi: "अपनी कक्षा बुक करें", sa: "स्वकक्षाम् आरक्षतु" },
+          subtitle: { en: "Pick a class type, focus and time that suits you — we'll take it from there.",
+                      hi: "अपने अनुसार कक्षा प्रकार, फोकस और समय चुनें — आगे का काम हम संभालेंगे।",
+                      sa: "कक्षाप्रकारं विषयं समयं च चिनु — शेषं वयं करिष्यामः।" },
+        },
+        { type: "booking" },
       ],
     },
 
@@ -582,6 +624,22 @@ window.SITE = {
     authExists:       { en: "An account with this email already exists — try logging in.", hi: "इस ईमेल से खाता पहले से है — लॉगिन करें।", sa: "खातम् अस्ति एव — प्रविशतु।" },
     authPhoneInvalid: { en: "Please enter a valid phone number (at least 10 digits).", hi: "मान्य फ़ोन नंबर दर्ज करें (कम से कम 10 अंक)।", sa: "शुद्धं दूरभाषाङ्कं लिखतु।" },
     authError:        { en: "Something went wrong — please try again.", hi: "कुछ गड़बड़ हुई — फिर से प्रयास करें।", sa: "त्रुटिः अभवत् — पुनः प्रयतस्व।" },
+
+    /* booking */
+    classType:        { en: "Class type", hi: "कक्षा प्रकार", sa: "कक्षाप्रकारः" },
+    program:          { en: "Program / focus", hi: "कार्यक्रम / फोकस", sa: "कार्यक्रमः" },
+    preferredTime:    { en: "Preferred start time", hi: "पसंदीदा समय", sa: "अभीष्टसमयः" },
+    plan:             { en: "Booking type", hi: "बुकिंग प्रकार", sa: "आरक्षणप्रकारः" },
+    startDate:        { en: "Date (start date for subscriptions)", hi: "तिथि (सदस्यता के लिए आरंभ तिथि)", sa: "दिनाङ्कः (सदस्यतायाः आरम्भदिनम्)" },
+    validTill:        { en: "Subscription valid till", hi: "सदस्यता मान्य रहेगी:", sa: "सदस्यता यावत् मान्या:" },
+    notes:            { en: "Anything we should know? (optional)", hi: "कुछ और बताना चाहें? (वैकल्पिक)", sa: "अन्यत् किमपि? (वैकल्पिकम्)" },
+    bookNow:          { en: "Book now", hi: "बुक करें", sa: "आरक्षतु" },
+    bookingThanks:    { en: "Booking received!", hi: "बुकिंग मिल गई!", sa: "आरक्षणं प्राप्तम्!" },
+    bookingThanksBody:{ en: "Namaste 🙏 Your NitYoga representative will reach out shortly to get you started.", hi: "नमस्ते 🙏 हमारे प्रतिनिधि जल्द ही आपसे संपर्क करेंगे।", sa: "नमस्ते 🙏 अस्माकं प्रतिनिधिः शीघ्रं सम्पर्कं करिष्यति।" },
+    bookAnother:      { en: "Book another class", hi: "एक और बुकिंग करें", sa: "पुनः आरक्षतु" },
+    myBookings:       { en: "My bookings", hi: "मेरी बुकिंग्स", sa: "मम आरक्षणानि" },
+    loginToBook:      { en: "Login to book your class", hi: "बुकिंग के लिए लॉगिन करें", sa: "आरक्षणाय प्रविशतु" },
+    loginToBookHint:  { en: "Create a free account or log in — booking takes under a minute.", hi: "मुफ़्त खाता बनाएँ या लॉगिन करें — बुकिंग में एक मिनट से भी कम लगता है।", sa: "खातं रचयित्वा प्रविशतु — क्षणमात्रं भवति।" },
   },
 
   footer: {

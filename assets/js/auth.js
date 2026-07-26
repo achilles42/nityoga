@@ -22,8 +22,12 @@ let authUser = null;
 
 if (sb) {
   sb.auth.onAuthStateChange((_event, session) => {
+    const changed = (session?.user?.id || null) !== (authUser?.id || null);
     authUser = session?.user || null;
     renderAuthSlot();
+    /* re-render the current page so login-aware blocks (booking)
+       switch between the login prompt and the real content */
+    if (changed) window.dispatchEvent(new HashChangeEvent("hashchange"));
   });
 }
 
@@ -221,3 +225,150 @@ function openAuthModal(mode) {
   document.body.append(overlay);
   setMode(mode || "login");
 }
+
+/* ---------- booking block ("Book a Class" page) ----------
+   Lives here (not blocks.js) because it needs the Supabase client
+   and the login state. Registered into the BLOCKS registry below. */
+function blockBooking() {
+  const section = el(`<section class="section"><div class="wrap book-wrap"></div></section>`);
+  const wrap = section.querySelector(".wrap");
+
+  if (!sb) {
+    wrap.append(el(`<div class="empty">Booking needs Supabase configured — see config/supabase.local.example.js.</div>`));
+    return section;
+  }
+
+  /* logged out → friendly gate with login / signup */
+  if (!authUser) {
+    wrap.append(el(`
+      <div class="book-gate">
+        <h2>${esc(str("loginToBook"))}</h2>
+        <p>${esc(str("loginToBookHint"))}</p>
+        <div class="ctas">
+          <button type="button" class="btn btn-primary" data-m="login">${esc(str("login"))}</button>
+          <button type="button" class="btn btn-ghost" data-m="signup">${esc(str("signup"))}</button>
+        </div>
+      </div>`));
+    wrap.querySelectorAll("[data-m]").forEach((b) =>
+      b.addEventListener("click", () => openAuthModal(b.dataset.m)));
+    return section;
+  }
+
+  /* logged in → booking form + list of own bookings */
+  const cfg = SITE.booking || {};
+  const opts = (list) => (list || []).map((o) =>
+    `<option value="${esc(o.en || o)}">${esc(t(o))}</option>`).join("");
+
+  /* calendar limits: today … +90 days */
+  const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const today = new Date();
+  const maxDay = new Date(today);
+  maxDay.setDate(maxDay.getDate() + 90);
+
+  const form = el(`
+    <form class="contact-form book-form">
+      <label>${esc(str("classType"))}
+        <select name="class_type" required>${opts(cfg.classTypes)}</select></label>
+      <label>${esc(str("program"))}
+        <select name="program" required>${opts(cfg.programs)}</select></label>
+      <label>${esc(str("plan"))}
+        <select name="plan" required>${opts(cfg.plans)}</select></label>
+      <label>${esc(str("startDate"))}
+        <input name="start_date" type="date" required
+          value="${iso(today)}" min="${iso(today)}" max="${iso(maxDay)}" />
+        <small class="sub-hint" hidden></small></label>
+      <label>${esc(str("preferredTime"))}
+        <select name="preferred_time" required>${opts(cfg.times)}</select></label>
+      <label>${esc(str("notes"))}<textarea name="notes" rows="3"></textarea></label>
+      <p class="auth-msg" hidden></p>
+      <button class="btn btn-primary" type="submit">${esc(str("bookNow"))}</button>
+    </form>`);
+
+  /* show the subscription's validity window under the date picker */
+  const subHint = form.querySelector(".sub-hint");
+  const updateHint = () => {
+    const isSub = /subscription/i.test(form.plan.value);
+    if (isSub && form.start_date.value) {
+      const end = new Date(form.start_date.value);
+      end.setDate(end.getDate() + (cfg.subscriptionDays || 30) - 1);
+      subHint.textContent = `${str("validTill")} ${end.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}`;
+      subHint.hidden = false;
+    } else {
+      subHint.hidden = true;
+    }
+  };
+  form.plan.addEventListener("change", updateHint);
+  form.start_date.addEventListener("change", updateHint);
+  updateHint();
+
+  const listBox = el(`
+    <div class="book-list" hidden>
+      <h2>${esc(str("myBookings"))}</h2>
+      <div class="items"></div>
+    </div>`);
+
+  async function refreshList() {
+    const { data } = await sb.from("bookings")
+      .select("class_type,program,preferred_time,plan,start_date,status,created_at")
+      .order("created_at", { ascending: false });
+    const items = listBox.querySelector(".items");
+    items.innerHTML = "";
+    const fmtDay = (d) => d ? new Date(d).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "";
+    (data || []).forEach((bk) => items.append(el(`
+      <div class="book-item">
+        <div>
+          <b>${esc(bk.class_type)} · ${esc(bk.program)}</b>
+          <p>${esc(bk.plan)}${bk.start_date ? ` · ${esc(fmtDay(bk.start_date))}` : ""} · ${esc(bk.preferred_time)}</p>
+        </div>
+        <span class="status-chip s-${esc(bk.status)}">${esc(bk.status)}</span>
+      </div>`)));
+    listBox.hidden = !(data || []).length;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const msg = form.querySelector(".auth-msg");
+    msg.hidden = true;
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    try {
+      const { error } = await sb.from("bookings").insert({
+        user_id: authUser.id,
+        class_type: form.class_type.value,
+        program: form.program.value,
+        preferred_time: form.preferred_time.value,
+        plan: form.plan.value,
+        start_date: form.start_date.value,
+        notes: form.notes.value.trim() || null,
+      });
+      if (error) {
+        msg.textContent = error.message || str("authError");
+        msg.hidden = false;
+        return;
+      }
+      /* success → thank-you panel + refreshed list */
+      const done = el(`
+        <div class="book-done">
+          <h2>🎉 ${esc(str("bookingThanks"))}</h2>
+          <p>${esc(str("bookingThanksBody"))}</p>
+          <button type="button" class="btn btn-ghost">${esc(str("bookAnother"))}</button>
+        </div>`);
+      done.querySelector("button").addEventListener("click", () =>
+        window.dispatchEvent(new HashChangeEvent("hashchange")));
+      form.replaceWith(done);
+      refreshList();
+    } catch {
+      msg.textContent = str("authError");
+      msg.hidden = false;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  wrap.append(form, listBox);
+  refreshList();
+  return section;
+}
+
+BLOCKS.booking = blockBooking;

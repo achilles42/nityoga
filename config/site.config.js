@@ -100,8 +100,8 @@ window.SITE = {
      You may also put the url/anonKey here instead — the anon key is
      public by design — but supabase.local.js wins if present.    */
   supabase: {
-    url: "",
-    anonKey: "",
+    url: "https://danrspowfhdwzbzcbtft.supabase.co",
+    anonKey: "sb_publishable_JdFSKHjlMMNSVGpr7XNstA_MKX_cwuq",
   },
 
   nav: [

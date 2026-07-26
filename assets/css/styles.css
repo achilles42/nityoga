@@ -529,6 +529,95 @@ a.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .wa-float svg { width: 100%; height: 100%; display: block; }
 .wa-float:hover { transform: scale(1.08); box-shadow: 0 14px 32px rgba(18, 140, 76, .55); }
 
+/* ---------- auth (login / signup) ---------- */
+.auth-slot { display: flex; align-items: center; }
+.btn-sm { padding: 9px 20px; font-size: .9rem; }
+
+.account { position: relative; }
+.account-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 0; cursor: pointer;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  color: #fff; font-family: var(--font-head); font-weight: 600; font-size: 1.05rem;
+  display: grid; place-items: center;
+  transition: transform .15s, box-shadow .15s;
+}
+.account-btn:hover { transform: scale(1.06); box-shadow: var(--shadow); }
+.account-menu {
+  position: absolute; right: 0; top: calc(100% + 10px); min-width: 220px;
+  background: var(--c-surface); border: 1px solid var(--c-line);
+  border-radius: 14px; box-shadow: var(--shadow); padding: 16px;
+  display: none; z-index: 60;
+}
+.account.open .account-menu { display: block; animation: fadeUp .2s ease both; }
+.acct-name { margin: 0; font-weight: 600; }
+.acct-email { margin: 2px 0 12px; color: var(--c-ink-soft); font-size: .85rem; word-break: break-all; }
+.logout-btn {
+  width: 100%; border: 1px solid var(--c-line); background: none; cursor: pointer;
+  font: inherit; font-weight: 600; color: var(--c-primary-dark);
+  padding: 9px 12px; border-radius: 10px;
+  transition: background .2s;
+}
+.logout-btn:hover { background: var(--c-primary-soft); }
+
+.auth-overlay {
+  position: fixed; inset: 0; z-index: 210;
+  background: rgba(12, 31, 29, .55); backdrop-filter: blur(3px);
+  display: grid; place-items: center; padding: 20px;
+  animation: fadeIn .2s ease both;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.auth-card {
+  position: relative; width: min(420px, 100%);
+  max-height: 92dvh; overflow-y: auto;
+  background: var(--c-surface); border-radius: calc(var(--radius) + 6px);
+  padding: 30px 28px; box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
+  animation: fadeUp .3s ease both;
+}
+.auth-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--c-primary-soft); color: var(--c-primary-dark); font-size: .95rem;
+}
+.auth-close:hover { background: var(--c-line); }
+
+.auth-tabs {
+  display: flex; gap: 2px; background: var(--c-primary-soft);
+  border-radius: 999px; padding: 4px; margin: 4px 0 22px;
+}
+.auth-tab {
+  flex: 1; border: 0; background: none; cursor: pointer;
+  font: inherit; font-weight: 600; font-size: .95rem;
+  color: var(--c-primary-dark); padding: 9px; border-radius: 999px;
+  transition: background .2s, color .2s;
+}
+.auth-tab.active { background: var(--c-primary); color: #fff; }
+
+.auth-form { display: grid; gap: 14px; }
+.auth-form h3 { margin: 0 0 2px; }
+.auth-form label { display: grid; gap: 6px; font-weight: 600; font-size: .9rem; }
+.auth-form label small { font-weight: 400; color: var(--c-ink-soft); }
+.auth-form input {
+  font: inherit; font-weight: 400; color: var(--c-ink);
+  border: 1px solid var(--c-line); border-radius: 10px;
+  padding: 11px 14px; background: var(--c-bg); width: 100%;
+}
+.auth-form input:focus {
+  outline: 2px solid var(--c-primary); outline-offset: 0; border-color: transparent;
+}
+.auth-form .btn { cursor: pointer; border: 2px solid transparent; font: inherit; font-weight: 600; }
+.auth-form .btn.loading { opacity: .6; pointer-events: none; }
+.auth-msg {
+  margin: 0; font-size: .9rem; border-radius: 10px; padding: 10px 14px;
+  background: color-mix(in srgb, #c0392b 10%, white); color: #8f2b1e;
+}
+.auth-msg.ok { background: var(--c-primary-soft); color: var(--c-primary-dark); }
+.auth-switch { margin: 2px 0 0; text-align: center; color: var(--c-ink-soft); font-size: .9rem; }
+.auth-switch button {
+  border: 0; background: none; cursor: pointer; padding: 0;
+  font: inherit; font-weight: 600; color: var(--c-primary);
+}
+.auth-switch button:hover { text-decoration: underline; }
+
 /* ---------- misc ---------- */
 .fade-in { animation: fadeUp .45s ease both; }
 @keyframes fadeUp {

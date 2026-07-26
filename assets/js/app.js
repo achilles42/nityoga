@@ -71,7 +71,9 @@
         <nav class="nav" id="siteNav" aria-label="Main">
           ${SITE.nav.map(navItemHtml).join("")}
         </nav>
+        <div class="auth-slot" id="authSlot"></div>
       </div>`;
+    if (typeof renderAuthSlot === "function") renderAuthSlot();
 
     /* footer */
     const year = new Date().getFullYear();

@@ -77,7 +77,7 @@ window.SITE = {
     social: [
       { icon: "facebook",  href: "https://www.facebook.com/" },
       { icon: "instagram", href: "https://www.instagram.com/yogacharay_nitesh_shukla/" },
-      { icon: "youtube",   href: "https://www.youtube.com/" },
+      { icon: "youtube",   href: "https://www.youtube.com/@nityoga_7" },
     ],
   },
 
@@ -87,6 +87,20 @@ window.SITE = {
   whatsapp: {
     number: "917566687916",
     message: "Namaste! I'd like to know more about NitYoga classes.",
+  },
+
+  /* ---------- SUPABASE (login / signup) ----------
+     1. Create a free project at https://supabase.com
+     2. Project Settings → API → copy the Project URL and the
+        "anon public" key into the two fields below.
+     3. Open the SQL Editor and run supabase/setup.sql once
+        (creates the profiles table + the phone-login lookup).
+     4. Optional, smoothest flow: Authentication → Sign In / Up →
+        turn OFF "Confirm email" so signup logs users in instantly.
+     Leave url/anonKey empty to hide the login button entirely.  */
+  supabase: {
+    url: "",       // e.g. "https://abcd1234.supabase.co"
+    anonKey: "",   // the long "anon public" key
   },
 
   nav: [
@@ -117,49 +131,28 @@ window.SITE = {
 
   classes: [
     {
-      title: "Morning Wake-Up Flow",
-      youtube: "https://www.youtube.com/watch?v=v7AYKMP6rOE",
-      style: "Vinyasa", level: "Beginner", duration: "15–30 min",
-      minutes: 20, teacher: "Yogacharya Nitesh Shukla",
-      description: "A gentle sunrise sequence to loosen the spine and set your day in motion.",
+      title: "Yoga Motivation",
+      youtube: "https://www.youtube.com/shorts/bBGsKWFByi0",
+      style: "Hatha", level: "Beginner", duration: "< 15 min",
+      minutes: 1, teacher: "Yogacharya Nitesh Shukla",
+      description: "A quick burst of yoga inspiration to get you moving.",
       featured: true,
     },
     {
-      title: "Deep Hip Release — Yin",
-      youtube: "https://www.youtube.com/watch?v=4pKly2JojMw",
-      style: "Yin", level: "Beginner", duration: "30–60 min",
-      minutes: 40, teacher: "Yogacharya Nitesh Shukla",
-      description: "Long, quiet holds that melt tension from hips and lower back.",
+      title: "Tadasana — Mountain Pose",
+      youtube: "https://www.youtube.com/shorts/NkMivtwrv7c",
+      style: "Hatha", level: "Beginner", duration: "< 15 min",
+      minutes: 1, teacher: "Yogacharya Nitesh Shukla",
+      description: "ताड़ासन — the foundation of all standing postures, demonstrated in under a minute.",
       featured: true,
     },
     {
-      title: "Power Core Burner",
-      youtube: "https://www.youtube.com/watch?v=GLy2rYHwUqY",
-      style: "Power", level: "Intermediate", duration: "15–30 min",
-      minutes: 25, teacher: "Yogacharya Nitesh Shukla",
-      description: "A sweat-forward core sequence for strength and stability.",
+      title: "Good Morning Yoga",
+      youtube: "https://www.youtube.com/shorts/GFbi6hTZFkc",
+      style: "Hatha", level: "Beginner", duration: "< 15 min",
+      minutes: 1, teacher: "Yogacharya Nitesh Shukla",
+      description: "Start your day with this energising morning yoga flow.",
       featured: true,
-    },
-    {
-      title: "Hatha Foundations",
-      youtube: "https://www.youtube.com/watch?v=6p_yaNFSYao",
-      style: "Hatha", level: "Beginner", duration: "30–60 min",
-      minutes: 35, teacher: "Yogacharya Nitesh Shukla",
-      description: "The essential postures, taught slowly and precisely.",
-    },
-    {
-      title: "Evening Unwind",
-      youtube: "https://www.youtube.com/watch?v=BiWDsfZ3zbo",
-      style: "Restorative", level: "Beginner", duration: "< 15 min",
-      minutes: 12, teacher: "Yogacharya Nitesh Shukla",
-      description: "Twelve minutes to switch off the day before sleep.",
-    },
-    {
-      title: "Advanced Arm Balances",
-      youtube: "https://www.youtube.com/watch?v=Eml2xnoLpYE",
-      style: "Power", level: "Advanced", duration: "30–60 min",
-      minutes: 45, teacher: "Yogacharya Nitesh Shukla",
-      description: "Crow to firefly — build the shoulders and focus to fly.",
     },
   ],
 
@@ -299,7 +292,7 @@ window.SITE = {
           text: { en: "Subscribe on YouTube so fresh sessions land in your feed the moment they publish.",
                   hi: "YouTube पर सब्सक्राइब करें — नए सत्र सीधे आपकी फ़ीड में।",
                   sa: "YouTube-मध्ये अनुसरणं कुरुत।" },
-          cta: { label: { en: "Visit our channel", hi: "हमारा चैनल देखें", sa: "अस्माकं वाहिनीं पश्यत" }, href: "https://www.youtube.com/" },
+          cta: { label: { en: "Visit our channel", hi: "हमारा चैनल देखें", sa: "अस्माकं वाहिनीं पश्यत" }, href: "https://www.youtube.com/@nityoga_7" },
         },
       ],
     },
@@ -568,13 +561,33 @@ window.SITE = {
     addressLabel:  { en: "Address", hi: "पता", sa: "स्थानम्" },
     hoursLabel:    { en: "Hours", hi: "समय", sa: "समयः" },
     close:         { en: "Close", hi: "बंद करें", sa: "पिधत्स्व" },
+
+    /* auth (login / signup) */
+    login:            { en: "Login", hi: "लॉगिन", sa: "प्रवेशः" },
+    signup:           { en: "Sign up", hi: "साइन अप", sa: "पञ्जीकरणम्" },
+    logout:           { en: "Sign out", hi: "साइन आउट", sa: "निर्गमनम्" },
+    passwordLabel:    { en: "Password", hi: "पासवर्ड", sa: "गूढपदम्" },
+    passwordHint:     { en: "At least 6 characters.", hi: "कम से कम 6 अक्षर।", sa: "न्यूनतया ६ वर्णाः।" },
+    emailOrPhone:     { en: "Email or phone", hi: "ईमेल या फ़ोन", sa: "ईमेल अथवा दूरभाषः" },
+    createAccount:    { en: "Create account", hi: "खाता बनाएँ", sa: "खातं रचयतु" },
+    authWelcomeBack:  { en: "Welcome back", hi: "पुनः स्वागत है", sa: "पुनः स्वागतम्" },
+    authJoin:         { en: "Create your account", hi: "अपना खाता बनाएँ", sa: "स्वखातं रचयतु" },
+    noAccount:        { en: "New to NitYoga?", hi: "नया खाता चाहिए?", sa: "नूतनं खातं इच्छसि?" },
+    haveAccount:      { en: "Already have an account?", hi: "पहले से खाता है?", sa: "खातम् अस्ति वा?" },
+    authCheckEmail:   { en: "Almost there — open the confirmation link we emailed you, then log in.", hi: "लगभग हो गया — ईमेल में भेजी गई पुष्टि लिंक खोलें, फिर लॉगिन करें।", sa: "ईमेल-पुष्टिं कृत्वा प्रविशतु।" },
+    authBadLogin:     { en: "Incorrect email/phone or password.", hi: "ईमेल/फ़ोन या पासवर्ड ग़लत है।", sa: "प्रवेशविवरणम् अशुद्धम्।" },
+    authNoPhone:      { en: "No account found with that phone number.", hi: "इस फ़ोन नंबर से कोई खाता नहीं मिला।", sa: "अनेन दूरभाषाङ्केन खातं न प्राप्तम्।" },
+    authConfirmFirst: { en: "Please confirm your email first — check your inbox.", hi: "पहले अपनी ईमेल की पुष्टि करें — इनबॉक्स देखें।", sa: "प्रथमम् ईमेल-पुष्टिं कुरु।" },
+    authExists:       { en: "An account with this email already exists — try logging in.", hi: "इस ईमेल से खाता पहले से है — लॉगिन करें।", sa: "खातम् अस्ति एव — प्रविशतु।" },
+    authPhoneInvalid: { en: "Please enter a valid phone number (at least 10 digits).", hi: "मान्य फ़ोन नंबर दर्ज करें (कम से कम 10 अंक)।", sa: "शुद्धं दूरभाषाङ्कं लिखतु।" },
+    authError:        { en: "Something went wrong — please try again.", hi: "कुछ गड़बड़ हुई — फिर से प्रयास करें।", sa: "त्रुटिः अभवत् — पुनः प्रयतस्व।" },
   },
 
   footer: {
     text: { en: "Made with breath and intention.", hi: "साँस और संकल्प से बना।", sa: "श्वासेन सङ्कल्पेन च निर्मितम्।" },
     links: [
       { label: { en: "About", hi: "परिचय", sa: "परिचयः" }, page: "about" },
-      { label: "YouTube", href: "https://www.youtube.com/" },
+      { label: "YouTube", href: "https://www.youtube.com/@nityoga_7" },
       { label: "Instagram", href: "https://www.instagram.com/yogacharay_nitesh_shukla/" },
       { label: { en: "Contact", hi: "संपर्क", sa: "सम्पर्कः" }, page: "contact" },
     ],

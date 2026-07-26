@@ -96,6 +96,7 @@ function videoCard(v) {
     player.innerHTML =
       `<iframe src="${esc(ytEmbed(id))}" title="${esc(v.title)}"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen></iframe>`;
   });
   return card;

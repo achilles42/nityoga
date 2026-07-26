@@ -262,13 +262,9 @@ function blockBooking() {
   const section = el(`<section class="section"><div class="wrap book-wrap"></div></section>`);
   const wrap = section.querySelector(".wrap");
 
-  if (!sb) {
-    wrap.append(el(`<div class="empty">Booking needs Supabase configured — see config/supabase.local.example.js.</div>`));
-    return section;
-  }
-
-  /* logged out → friendly gate with login / signup */
-  if (!authUser) {
+  /* logged out (or Supabase missing) → friendly login / signup gate */
+  if (!sb || !authUser) {
+    if (!sb) console.warn("Supabase not configured — see config/supabase.local.example.js");
     wrap.append(authGate());
     return section;
   }

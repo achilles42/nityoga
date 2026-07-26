@@ -137,4 +137,3 @@ exception when duplicate_object then null; end $$;
 drop function if exists public.email_for_phone(text);
 drop function if exists public.email_for_username(text);
 
-

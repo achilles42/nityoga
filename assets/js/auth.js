@@ -104,6 +104,16 @@ function renderAuthSlot() {
 function openAuthModal(mode) {
   document.getElementById("authOverlay")?.remove();
 
+  /* password input with a show/hide (eye) toggle */
+  const pwInput = (name, ac, extra = "") => `
+    <span class="pw-wrap">
+      <input name="${name}" type="password" autocomplete="${ac}" required ${extra} />
+      <button type="button" class="pw-toggle" aria-label="Show password" tabindex="-1">
+        <svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>
+      </button>
+    </span>`;
+
   const overlay = el(`
     <div class="auth-overlay" id="authOverlay">
       <div class="auth-card" role="dialog" aria-modal="true" aria-label="${esc(str("login"))}">
@@ -116,7 +126,7 @@ function openAuthModal(mode) {
               placeholder="you@example.com" />
           </label>
           <label>${esc(str("passwordLabel"))}
-            <input name="password" type="password" autocomplete="current-password" required />
+            ${pwInput("password", "current-password")}
           </label>
           <p class="auth-msg" hidden></p>
           <button class="btn btn-primary" type="submit">${esc(str("login"))}</button>
@@ -138,11 +148,11 @@ function openAuthModal(mode) {
               placeholder="+91 98765 43210" />
           </label>
           <label>${esc(str("passwordLabel"))}
-            <input name="password" type="password" autocomplete="new-password" required minlength="6" />
+            ${pwInput("password", "new-password", 'minlength="6"')}
             <small>${esc(str("passwordHint"))}</small>
           </label>
           <label>${esc(str("confirmPassword"))}
-            <input name="password2" type="password" autocomplete="new-password" required minlength="6" />
+            ${pwInput("password2", "new-password", 'minlength="6"')}
           </label>
           <p class="auth-msg" hidden></p>
           <button class="btn btn-primary" type="submit">${esc(str("createAccount"))}</button>
@@ -171,6 +181,18 @@ function openAuthModal(mode) {
   };
   overlay.querySelectorAll("[data-goto]").forEach((b) =>
     b.addEventListener("click", () => setMode(b.dataset.goto)));
+
+  /* eye buttons: reveal / hide the password */
+  overlay.querySelectorAll(".pw-wrap").forEach((w) => {
+    const input = w.querySelector("input");
+    const btn = w.querySelector(".pw-toggle");
+    btn.addEventListener("click", () => {
+      const show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.classList.toggle("on", show);
+      input.focus();
+    });
+  });
 
   const showMsg = (form, text, ok = false) => {
     const p = form.querySelector(".auth-msg");
